@@ -1,0 +1,20 @@
+import {  useState } from 'react'
+import { useGLTF } from '@react-three/drei'
+import { useSpring, animated,config } from '@react-spring/three'
+
+export default function Map(props) {
+  const {  nodes } = useGLTF('./models/scene.glb')
+  const [active, setActive] = useState(false)
+  const { mapRotate } = useSpring({
+    mapRotate: active ? 1 : 0,
+    config: config.wobbly,
+  })
+  const handleOut = () => {
+    nodes.map.rotation.y = 0
+  }
+
+  return (
+      <animated.mesh   geometry={nodes.map.geometry}
+      material={nodes.map.material} castShadow  scale={[3, 3, 3]}  onPointerOver={e=>setActive(true)} onPointerOut={e=>setActive(false)}/> 
+  )
+}
